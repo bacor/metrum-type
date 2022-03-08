@@ -1,11 +1,3 @@
-
-// import Character_c from "./chars/c"
-// import Character_e from "./chars/e"
-// import Character_m from "./chars/m"
-// import Character_r from "./chars/r"
-// import Character_t from "./chars/t"
-// import Character_u from "./chars/u"
-
 import Paper from "paper";
 import Character from "./character.js"
 
