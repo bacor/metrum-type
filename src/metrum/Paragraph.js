@@ -1,6 +1,5 @@
 import { Point, Group } from "paper"
-
-import Text from "./text"
+import Text from "./Text"
 
 class Paragraph {
     constructor(text, {

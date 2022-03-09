@@ -1,19 +1,27 @@
 import React, { useRef, useEffect } from 'react';
+import './Canvas.css';
 import Paper from 'paper';
-import example from './examples';
-// import example from './metrum';
 
-const Canvas = props => {
+const Canvas = ({
+  drawing=()=>{},
+  resize=true,
+  ...props
+}={}) => {
   
   const canvasRef = useRef(null)
   
   useEffect(() => {
     const canvas = canvasRef.current;
     Paper.setup(canvas);
-    example();
+    drawing()
   }, []);
   
-  return <canvas ref={canvasRef} {...props} id="canvas" resize="true" />
+  return <canvas 
+    ref={canvasRef}
+    {...props}
+    className="canvas"
+    resize={resize ? 'true' : 'false'}
+  />
 }
 
 export default Canvas;

@@ -21,12 +21,14 @@ class StyleMetrum extends Style {
     arcStyle={fillColor: '#00ADCE99'},
     lineStyle={fillColor: '#FFAE0099'},
     blendMode='multiply',
+    brush='beta',
+    brushOptions,
     ...opts 
   }={}) {
     const shapeOpts = {
       unit: unit,
-      brush: brushes.sine,
-      brushOptions: { width: unit / 2 }
+      brush: brushes[brush],
+      brushOptions: { width: unit / 2, ...brushOptions }
     }
     let arc = new Arc(shapeOpts)
     let line = new Line(shapeOpts)
@@ -41,13 +43,19 @@ class StyleMetrum extends Style {
   onMouseMove(event) { 
     let {width, height} = Paper.view.bounds
     let {x, y} = event.point
+
+    let concentration = y / height * 6 
+    let skew = ((x / width) - .5) * concentration
+
     this.line.updateBrush({ 
-      width: (.1 + .9 * (x / width)) * this.unit, 
-      intensity: y / height
+      // width: (.1 + .9 * (x / width)) * this.unit, 
+      // intensity: y / height,
+      concentration, skew
     })
     this.arc.updateBrush({ 
-      width: (.1 + .9 * x / width) * this.unit, 
-      intensity: y / height
+      // width: (.1 + .9 * x / width) * this.unit, 
+      // intensity: y / height,
+      concentration, skew
     })
   }
 }
@@ -63,6 +71,7 @@ class StyleConstruction extends StyleMetrum {
         strokeColor: '#FFAE0099',
         fillColor: '#FFAE0066',
       },
+      brush: 'beta',
       ...opts
     })
     this.arc.spine.strokeColor = 'black'

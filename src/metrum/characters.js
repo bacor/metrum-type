@@ -1,5 +1,5 @@
 import Paper from "paper";
-import Character from "./character.js"
+import Character from "./Character"
 
 class Character_a extends Character {
   char = 'a'

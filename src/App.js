@@ -1,12 +1,12 @@
-import Canvas from './Canvas';
+import Canvas from './metrum/Canvas';
 import './App.css';
-
-
+import example from './examples';
+// import example from './metrum';
 
 function App() {
   return (
     <div id="canvas-container">
-      <Canvas />
+      <Canvas drawing={example} />
     </div>
   );
 }
