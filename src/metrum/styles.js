@@ -7,7 +7,6 @@ class Style {
     unit,
     arcStyle={},
     lineStyle={},
-    animate=true,
     ...shapeOpts
   } = {}) {
     this.unit = unit
@@ -15,29 +14,12 @@ class Style {
     this.line = new Line({ unit, ...shapeOpts, ...lineStyle })
     this.arcSymbol = this.arc.symbol
     this.lineSymbol = this.line.symbol
-
-    if(animate) {
-      Paper.view.onMouseMove = this.onMouseMove.bind(this)
-    }
   }
 
   updateBrush(brushParams) {
     this.line.updateBrush(brushParams)
     this.arc.updateBrush(brushParams)
   }
-
-  onMouseMove(event) {
-    let {width, height} = Paper.view.bounds
-    let {x, y} = event.point
-    let concentration = y / height * 6 
-    let skew = ((x / width) - .5) * concentration
-    this.updateBrush({ 
-      // width: (.1 + .9 * (x / width)) * this.unit, 
-      // intensity: y / height,
-      concentration, skew
-    })
-  }
-
 }
 
 class StyleMetrum extends Style {

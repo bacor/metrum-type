@@ -65,7 +65,7 @@ class BetaBrush extends Brush {
 
   relativeWidth(pos) {
     return this.density(pos) / this.max
-  }  
+  }
 }
 
 const brushes = {

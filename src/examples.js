@@ -5,7 +5,21 @@ import { Arc, Line } from "./metrum/shapes";
 import Text from "./metrum/Text";
 import styles from "./metrum/styles";
 import { scaleProject } from "./metrum/utils";
-import brushes from "./metrum/brushes";
+
+function animateOnMouseMove(style) {
+  Paper.view.onMouseMove = (event) => {
+    let {width, height} = Paper.view.bounds
+    let {x, y} = event.point
+    let concentration = y / height * 6 
+    let skew = ((x / width) - .5) * concentration
+    style.updateBrush({ 
+      // width: (.1 + .9 * (x / width)) * this.unit, 
+      // intensity: y / height,
+      concentration, skew
+    })
+  }
+}
+
 
 const showBrush = (brush='beta') => () => {
   const shapeOpts = { 
@@ -27,13 +41,12 @@ const showStyle = (styleName='construction') => () => {
   let style = styles.factory(styleName, { unit: 30 })
   style.lineSymbol.place(new Point(200, 50))
   style.arcSymbol.place(new Point(200, 200))
-
 }
 
 const windowResizing = () => {
   let content = 'a'
   let unit = 30
-  let style = styles.factory('construction', { unit, animate: true })
+  let style = styles.factory('construction', { unit })
   
   const point = new Point(150, 270)
   let circle = new Path.Circle(point, 3)
@@ -88,6 +101,7 @@ const showParagraph = (text) => () => {
   let par = new Text(text, style)
   const point = new Point(100, 150)
   par.draw(point)
+  animateOnMouseMove(style)
 }
 
 const setText = (point, text) => {

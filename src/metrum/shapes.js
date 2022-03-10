@@ -50,7 +50,7 @@ class Shape {
     } = {},
     blendMode='normal',
     ...styles
-  }={}) {
+  } = {}) {
     // Basic hierarchy
     this.spine = spine
     this.spine.name = 'spine'
