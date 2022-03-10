@@ -15,7 +15,13 @@ function showExample(example) {
 function App() {
   return (
     <div className="container">
-      <MetrumText width="100%" height="200px" align="bottomLeft" size={7}>
+      <MetrumText 
+        width="100%" 
+        height="200px" 
+        align="bottomLeft"
+        // brushOpts={{ intensity: .5 }} 
+        size={6}
+      >
         hallo zeg <br />
         boe schrik whaat
       </MetrumText>

@@ -1,44 +1,85 @@
 import Beta from '@stdlib/stats-base-dists-beta'
 
-function constant({ width }) {
-  return (pos) => width
-}
+class Brush {
+  constructor({width=1, intensity=1, ...params}={}) {
+    this.params = {}
+    this.update({width, intensity, ...params})
+  }
 
-function sine({width, intensity=.1, period=1}) {
-  return (pos) => {
-    let sine = Math.sin(pos * period * Math.PI)
-    return width * ((1 - intensity) +  intensity * Math.abs(sine))
+  update(params) {
+    this.params = { ...this.params, ...params }
+  }
+
+  width(pos) {
+    let relWidth = this.relativeWidth(pos)
+    let intens = this.params.intensity
+    let width = this.params.width
+    return ((1 - intens) * width) + (intens * relWidth * width)
+  }
+
+  relativeWidth(pos) {
+    // To be computed by subclasses: 
+    // takes a position between 0 and one and 
+    // (usually) outputs a value between 0 and 1
   }
 }
 
-function beta({ width, skew=0, concentration=.0001, intensity=1}={}) {
-  // We reparametrize the distribution by a 'skew' and concentration
-  // parameter. The higher the concentration, the less spread out the brush
-  // is. Positive skew means the thickest part of the brush is on the right
-  // Negative skew means it's on the left. The skew always has to be 
-  // absolutely smaller than the concentration parameter. This is to ensure
-  // that the a and b parameters of the Beta distribution are both above 1,
-  // so that the mode of the distribution is the peak of the density.
-  if(Math.abs(skew) > concentration) return false;
-  let a = concentration + 1
-  let b = concentration + 1
-  if(skew < 0) a -= Math.abs(skew)
-  if(skew > 0) b-= Math.abs(skew)
-
-  // Compute the mode and the value of the pdf at that point: 
-  // this it the maximum by which we normalize the pdf
-  let density = Beta.pdf.factory(a, b)
-  let mode = Beta.mode(a, b)
-  let max = density(mode)
-  return (pos) => {
-    let normDensity =  density(pos) / max
-    let out = (1 - intensity) * width + intensity * normDensity * width
-    return out
+class ConstantBrush extends Brush {
+  relativeWidth() {
+    return 1
   }
 }
 
-export default {
-  constant,
-  sine,
-  beta
+class SineBrush extends Brush {
+  constructor({ period=1, ...params } = {}) {
+    super({ period, ...params })
+  }
+
+  relativeWidth(pos) {
+    let sine = Math.sin(pos * this.params.period * Math.PI)
+    return Math.abs(sine)
+  }
+}
+
+class BetaBrush extends Brush {
+  constructor({ skew=0, concentration=.0001, ...params} = {}) {
+    super({ skew, concentration, ...params })
+  }
+
+  update(params) {
+    super.update(params)
+    let { skew, concentration } = this.params
+    if(Math.abs(skew) > concentration) return false;
+    
+    let a = concentration + 1
+    let b = concentration + 1
+    if(skew < 0) a -= Math.abs(skew)
+    if(skew > 0) b-= Math.abs(skew)
+
+    // Compute the mode and the value of the pdf at that point: 
+    // this it the maximum by which we normalize the pdf
+    this.density = Beta.pdf.factory(a, b)
+    let mode = Beta.mode(a, b)
+    this.max = this.density(mode)
+  }
+
+  relativeWidth(pos) {
+    return this.density(pos) / this.max
+  }  
+}
+
+const brushes = {
+  constant: ConstantBrush,
+  sine: SineBrush,
+  beta: BetaBrush,
+}
+
+function factory(name, params={}) {
+  let brushClass = brushes[name]
+  return new brushClass(params)
+}
+
+export default { 
+  factory,
+  ...brushes 
 }

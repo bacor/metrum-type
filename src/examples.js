@@ -5,28 +5,35 @@ import { Arc, Line } from "./metrum/shapes";
 import Text from "./metrum/Text";
 import styles from "./metrum/styles";
 import { scaleProject } from "./metrum/utils";
+import brushes from "./metrum/brushes";
 
-const showBrush = () => {
-  let unit = 30
-  const shapeOpts = {
-    unit,
-    brush: 'beta',
-    brushOptions: { width: unit / 2 },
+const showBrush = (brush='beta') => () => {
+  const shapeOpts = { 
+    unit: 50, 
+    brush, 
+    brushOpts: {
+      width: 10,
+      intensity: 1,
+      concentration: 5,
+    }
   }
-  let arc = new Arc({ fillColor: '#00ADCE99', ...shapeOpts })
-  let line = new Line({ fillColor: '#FFAE0099', ...shapeOpts })
-  console.log(arc.symbol)
+  let line = new Line({ ...shapeOpts })
+  let arc = new Arc({ ...shapeOpts })
+  line.symbol.place(new Point(200, 50))
+  arc.symbol.place(new Point(200, 200))
+}
 
-  // for(var i=0; i<4; i++){
-  let a = arc.symbol.place(new Point(200, 100))
-  let l = line.symbol.place(new Point(200, 300))
-  // }
+const showStyle = (styleName='construction') => () => {
+  let style = styles.factory(styleName, { unit: 30 })
+  style.lineSymbol.place(new Point(200, 50))
+  style.arcSymbol.place(new Point(200, 200))
+
 }
 
 const windowResizing = () => {
   let content = 'a'
   let unit = 30
-  let style = styles.construction({ unit, animate: true })
+  let style = styles.factory('construction', { unit, animate: true })
   
   const point = new Point(150, 270)
   let circle = new Path.Circle(point, 3)
@@ -39,7 +46,7 @@ const windowResizing = () => {
 }
 
 const random = () => {
-  let style = styles.construction({ unit: 30 })
+  let style = styles.factory('construction', { unit: 30 })
   for(var i=0; i<10; i++){
     let a = style.arcSymbol.place()
     let l = style.lineSymbol.place()
@@ -50,7 +57,7 @@ const random = () => {
 
 const showSingleChar = (text) => () => {
   let unit = 30
-  let style = styles.construction({ unit, animate: true })
+  let style = styles.factory('construction', { unit })
   
   const point = new Point(150, 270)
   let circle = new Path.Circle(point, 3)
@@ -62,13 +69,13 @@ const showSingleChar = (text) => () => {
 
 const showText = (text) => () => {
   let unit = 10
-  let style = styles.metrum({ unit })
+  let style = styles.factory('metrum', { unit })
   let textLine = new Text(text, style)
   textLine.draw(new Point(100, 200))
 }
 
 const showAlphabet = () => {
-  let style = styles.metrum({ unit: 10 })
+  let style = styles.factory('metrum', { unit: 10 })
   let alphabet = 'abcdefghijklm\nnopqrstuvwxyz'
   let par = new Text(alphabet, {  
     ...style
@@ -77,7 +84,7 @@ const showAlphabet = () => {
 }
 
 const showParagraph = (text) => () => {
-  let style = styles.metrum({ unit: 10 })
+  let style = styles.factory('metrum', { unit: 10 })
   let par = new Text(text, style)
   const point = new Point(100, 150)
   par.draw(point)
@@ -95,7 +102,7 @@ const setText = (point, text) => {
 
 const showMetrum = () => {
   let unit = 30
-  let style = styles.metrum({ unit })
+  let style = styles.factory('metrum', { unit })
   let textLine = new Text('metrum', style)
   textLine.draw(new Point(100, 300))
 
@@ -112,7 +119,8 @@ const showMetrum = () => {
 // export default showSingleChar('m')
 // export default showText('xfyfzf')
 // export default showAlphabet
-// export default showParagraph("metrum\ngraphic design\nand more");
+export default showParagraph("metrum\ngraphic design\nand more");
 // export default showMetrum
-// export default showBrush
-export default windowResizing
+// export default showBrush()
+// export default showStyle()
+// export default windowResizing

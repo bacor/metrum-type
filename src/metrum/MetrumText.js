@@ -8,27 +8,28 @@ import { scaleProject } from './utils';
 
 function typeset({
   text,
+  style,
   size='auto',
   scale=true,
-  style='metrum',
-  styleOpts={ 
-    brush: 'sine',
-    animate: false 
-  },
-  brushOptions={intensity: 1},
-  lineHeight=1,
   align='topLeft',
+  styleOpts={},
+  lineHeight,
+  characterSpacing,
 }={}) {
   return () => {
-    // Draw the text
+    // Style object
     let unit = size === 'auto' ? 10  : size
-    let styleObj = styles[style]({ 
-      unit: unit, 
-      brushOptions, 
+    console.log(unit)
+    let styleObj = styles.factory(style, { 
+      unit, 
       ...styleOpts
     })
+  
+    // typeset the text
     let par = new Text(text, {
+      unit,
       lineHeight,
+      characterSpacing,
       ...styleObj
     })
     par.draw()
@@ -53,19 +54,33 @@ function typeset({
 function MetrumText({
   width="100%",
   height="100%",
-  ...props
-}) {
+  
+  // General options
+  size='auto',
+  scale=true,
+  lineHeight=1,
+  characterSpacing,
+  style='metrum',
+
+  // Style options
+  arcStyle,
+  lineStyle,
+  blendMode,
+  brush,
+  brushParams,
+  children
+}={}) {
 
   // Parse the content of the element
   let text = '';
-  if(typeof(props.children) == 'string') {
+  if(typeof(children) == 'string') {
     // The content is just a plain string:
-    text = props.children
+    text = children
 
-  } else if(props.children instanceof Array) {
+  } else if(children instanceof Array) {
     // Alternatively, multiple lines separated by breaks
     let lines = []
-    props.children.forEach(line => {
+    children.forEach(line => {
       if(typeof(line) == 'string') {
         lines.push(line)
       } else if(line.type != 'br') {
@@ -75,11 +90,13 @@ function MetrumText({
     text = lines.join('\n')
   }
 
+  // Combine all style options
+  let styleOpts = {arcStyle, lineStyle, blendMode, brush, brushParams}
+  let opts = {size, scale, lineHeight, characterSpacing}
+
   return (
     <div className="metrum-type" style={{width, height}}>
-      <Canvas drawing={
-        typeset({ text, ...props })
-      } />
+      <Canvas drawing={typeset({ text, style, styleOpts, ...opts })} />
     </div>
   )
 }

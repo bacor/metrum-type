@@ -6,7 +6,7 @@ class Character {
   constructor({ 
     arcSymbol,
     lineSymbol,
-    unit = 20,
+    unit,
     axis=15,
   } = {}) {    
     this.arc = arcSymbol

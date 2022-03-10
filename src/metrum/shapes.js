@@ -1,16 +1,20 @@
 import { Point, Path, Group, SymbolDefinition } from "paper"
 import brushes from "./brushes"
 
-function approxOffsetCurve(path, widthFn, { N=30, smooth=true, simplify=true }={}) {
+function approxOffsetCurve(path, widthFn, { 
+  numSegments=30, 
+  smooth=true, 
+  simplify=true 
+} = {}) {
   // Construct an two offset paths by connecting
   // endpoints of the normals and antinormals of
   // lenghts given by a width function
   var normalOffset = new Path({strokeColor:'green'})
   var antiNormalOffset = new Path()
-  for(var i=0; i<=N; i+=1) {
-      var offset = i * path.length / N
+  for(var i=0; i<=numSegments; i+=1) {
+      var offset = i * path.length / numSegments
       var point = path.getPointAt(offset);
-      var w = widthFn(i / N)
+      var w = widthFn(i / numSegments)
       var normal = path.getNormalAt(offset).multiply(w)
       normalOffset.add(point.add(normal))
       antiNormalOffset.add(point.subtract(normal))
@@ -18,8 +22,8 @@ function approxOffsetCurve(path, widthFn, { N=30, smooth=true, simplify=true }={
   
   // Smooth and simplify both offset curves
   if(smooth) {
-    normalOffset.smooth({ from: 1, to: N-1 })
-    antiNormalOffset.smooth({ from: 1, to: N-1 })
+    normalOffset.smooth({ from: 1, to: numSegments-1 })
+    antiNormalOffset.smooth({ from: 1, to: numSegments-1 })
   }
   if(simplify) {
     normalOffset.simplify()
@@ -32,62 +36,71 @@ function approxOffsetCurve(path, widthFn, { N=30, smooth=true, simplify=true }={
   offset.join(normalOffset)
   offset.closePath()
   return offset
-
 }
 
 class Shape {
   constructor(spine, {
+    unit,
     brush='constant',
-    brushOptions={width: 10},
-    offsetCurveOptions,
+    brushParams={},
+    renderOpts: {
+      numSegments=50, 
+      smooth=false, 
+      simplify=false
+    } = {},
+    blendMode='normal',
     ...styles
   }={}) {
     // Basic hierarchy
     this.spine = spine
-    this.brush = new Path()
-    this.group = new Group([ this.spine, this.brush])
+    this.spine.name = 'spine'
+    this.body = new Path()
+    this.body.name = 'body'
+    this.group = new Group([ this.spine, this.body])
     this.symbol = new SymbolDefinition(this.group)
     
-    // Update the brush
-    this.brushConstructor = typeof(brush) == 'string' ? brushes[brush] : brush     
-    this.brushOptions = brushOptions
-    this.updateBrush(brushOptions)
-
-    // Draw the brush
+    // Styles
+    this.group.blendMode = blendMode
     this.style = styles
-    this.offsetCurveOptions = offsetCurveOptions
-    this.drawBrush()
+    
+    // Instantiate and draw the brush
+    if(!('width' in brushParams)) brushParams.width = unit / 2;
+    this.brush = brushes.factory(brush, brushParams)
+    this.renderOpts = {numSegments, smooth, simplify}
+    this.draw()
   }
 
-  updateBrush(brushOptions) {
-    brushOptions = {...this.brushOptions, ...brushOptions}
-    this.brushOptions = brushOptions
-    this.brushFn = this.brushConstructor(brushOptions)
-    this.drawBrush()
+  updateBrush(brushParams) {
+    this.brush.update(brushParams)
+    this.draw()
   }
 
-  drawBrush() {
+  draw() {
     let styles = this.style
-    let newBrush = approxOffsetCurve(this.spine, this.brushFn, this.offsetCurveOptions)
+    let widthFn = pos => this.brush.width(pos)
+    let newBrush = approxOffsetCurve(this.spine, widthFn, this.renderOpts)
     newBrush.style = styles
-    this.brush.replaceWith(newBrush)
-    this.brush = newBrush
+    this.body.replaceWith(newBrush)
+    this.body = newBrush
+    this.body.name = 'body'
   }
 
   get style() {
-    return this.brush.style
+    return this.body.style
   }
 
   set style(styles) {
-    this.brush.style = styles
+    this.body.style = styles
   }
 }
 
 class Arc extends Shape {
   constructor({
+    unit,
     point = new Point(0, 0),
-    unit=20,
-    ...options
+    fillColor='#FF000033',
+    strokeColor='red',
+    ...opts
   } = {}) {
     // Construct the spine
     let spine = new Path([point])
@@ -96,15 +109,18 @@ class Arc extends Shape {
     spine.lineBy(new Point(0, unit/2))
 
     // Call parent constructor
-    super(spine, options)
+    super(spine, {unit, fillColor, strokeColor, ...opts})
+    this.group.name = 'arc'
   }
 }
 
 class Line extends Shape {
   constructor({ 
     point = new Point(0, 0),
-    unit = 20, 
-    ...options 
+    unit,
+    fillColor='#0000FF33',
+    strokeColor='blue', 
+    ...opts 
   } = {}) {
     // Construct the spine
     let spine = new Path()
@@ -112,12 +128,12 @@ class Line extends Shape {
     spine.lineBy(new Point(4 * unit, 0))
 
     // Call parent constructor
-    super(spine, options)
+    super(spine, {unit, fillColor, strokeColor, ...opts})
+    this.group.name = 'line'
   }
 }
 
 export {
-  approxOffsetCurve,
   Shape, 
   Arc, 
   Line

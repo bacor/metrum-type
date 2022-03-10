@@ -4,9 +4,11 @@ import characters from "./characters"
 import kerning from "./kerning"
 
 class TextLine {
-  constructor(text, characterOptions, {
-    characterSpacing = 1
-  } = {} ) {
+  constructor(text, {
+    arcSymbol, lineSymbol, unit,
+    characterSpacing = 1,
+    ...opts
+  } = {}) {
     this.text = text
     this.group = new Group()
     this.spacing = characterSpacing
@@ -15,7 +17,10 @@ class TextLine {
     for(var i=0; i < text.length; i++) {
       if(text[i] in characters) {
         let CharClass = characters[text[i]];
-        let character = new CharClass(characterOptions)
+        let character = new CharClass({
+          arcSymbol, lineSymbol, unit,
+          ...opts
+        })
         this.chars.push(character)
       } else {
         console.warn(`Character is ${text[i]} not supported and ignored.`)
@@ -56,10 +61,10 @@ class TextLine {
 
 class Text {
   constructor(text, {
-    unit = 20,
+    arcSymbol, lineSymbol, unit,
     lineHeight = 1,
     maxCharacterHeight = 11,
-    ...textOpts
+    ...opts
   } = {}) {
     this.lineHeight = lineHeight
     this.maxCharacterHeight = maxCharacterHeight
@@ -70,8 +75,8 @@ class Text {
     this.lines = []
     for(let i=0; i<textLines.length; i++) {
       let line = new TextLine(textLines[i], {
-        unit, 
-        ...textOpts
+        arcSymbol, lineSymbol, unit,
+        ...opts
       })
       this.lines.push(line)
     }
