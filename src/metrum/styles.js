@@ -1,5 +1,5 @@
 import Paper from "paper";
-import { Arc, Line, brushes } from "./shapes"
+import { Arc, Line } from "./shapes"
 
 class Style {
   constructor({ unit, arc, line, animate=true }={}) {
@@ -26,8 +26,8 @@ class StyleMetrum extends Style {
     ...opts 
   }={}) {
     const shapeOpts = {
-      unit: unit,
-      brush: brushes[brush],
+      unit,
+      brush,
       brushOptions: { width: unit / 2, ...brushOptions }
     }
     let arc = new Arc(shapeOpts)

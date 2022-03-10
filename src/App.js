@@ -1,6 +1,6 @@
 import './App.css';
 
-import Type from "./metrum/Type"
+import MetrumText from "./metrum/MetrumText"
 import example from './examples';
 import Canvas from './metrum/Canvas';
 
@@ -15,10 +15,10 @@ function showExample(example) {
 function App() {
   return (
     <div className="container">
-      <Type width="100%" height="200px" align="bottomLeft" size={7}>
+      <MetrumText width="100%" height="200px" align="bottomLeft" size={7}>
         hallo zeg <br />
         boe schrik whaat
-      </Type>
+      </MetrumText>
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer blandit
         elit at est ornare aliquam quis ut turpis.  Ut quis mauris sollicitudin, 
@@ -30,9 +30,9 @@ function App() {
         feugiat et tellus et, luctus porttitor quam.
       </p>
 
-      <Type width="100%" height="100px" align="bottomLeft" size={7}>
+      <MetrumText width="100%" height="100px" align="bottomLeft" size={7}>
         daar gaan we
-      </Type>
+      </MetrumText>
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer blandit
         elit at est ornare aliquam quis ut turpis.  Ut quis mauris sollicitudin, 

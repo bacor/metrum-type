@@ -30,7 +30,6 @@ class Character {
     return new Point(x, y).multiply(this.unit)
   }
 
-
   p(point, x=0, y=0) {
     let delta = new Point(x, -y).multiply(this.unit)
     return point.add(delta)

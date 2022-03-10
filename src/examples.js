@@ -1,9 +1,8 @@
 import Paper from "paper";
 import { Path, Point, Group } from "paper"
 
-import { brushes, Arc, Line } from "./metrum/shapes";
-import Text from "./metrum/Text"
-import Paragraph from "./metrum/Paragraph";
+import { Arc, Line } from "./metrum/shapes";
+import Text from "./metrum/Text";
 import styles from "./metrum/styles";
 import { scaleProject } from "./metrum/utils";
 
@@ -11,7 +10,7 @@ const showBrush = () => {
   let unit = 30
   const shapeOpts = {
     unit,
-    brush: brushes.beta,
+    brush: 'beta',
     brushOptions: { width: unit / 2 },
   }
   let arc = new Arc({ fillColor: '#00ADCE99', ...shapeOpts })
@@ -25,7 +24,7 @@ const showBrush = () => {
 }
 
 const windowResizing = () => {
-  let text = 'a'
+  let content = 'a'
   let unit = 30
   let style = styles.construction({ unit, animate: true })
   
@@ -33,8 +32,8 @@ const windowResizing = () => {
   let circle = new Path.Circle(point, 3)
   circle.fillColor = 'black'
   
-  let textLine = new Text(text, style)
-  textLine.draw(point)
+  let text = new Text(content, style)
+  text.draw(point)
 
   scaleProject(Paper.project)
 }
@@ -71,7 +70,7 @@ const showText = (text) => () => {
 const showAlphabet = () => {
   let style = styles.metrum({ unit: 10 })
   let alphabet = 'abcdefghijklm\nnopqrstuvwxyz'
-  let par = new Paragraph(alphabet, {  
+  let par = new Text(alphabet, {  
     ...style
   })
   par.draw(new Point(100, 150))
@@ -79,7 +78,7 @@ const showAlphabet = () => {
 
 const showParagraph = (text) => () => {
   let style = styles.metrum({ unit: 10 })
-  let par = new Paragraph(text, style)
+  let par = new Text(text, style)
   const point = new Point(100, 150)
   par.draw(point)
 }

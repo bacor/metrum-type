@@ -2,7 +2,7 @@
 import Paper from "paper";
 
 import Canvas from './Canvas';
-import Paragraph from './Paragraph';
+import Text from './Text';
 import styles from './styles';
 import { scaleProject } from './utils';
 
@@ -11,15 +11,23 @@ function typeset({
   size='auto',
   scale=true,
   style='metrum',
-  styleOpts={},
+  styleOpts={ 
+    brush: 'sine',
+    animate: false 
+  },
+  brushOptions={intensity: 1},
   lineHeight=1,
   align='topLeft',
 }={}) {
   return () => {
     // Draw the text
     let unit = size === 'auto' ? 10  : size
-    let styleObj = styles[style]({ unit: unit, ...styleOpts })      
-    let par = new Paragraph(text, {
+    let styleObj = styles[style]({ 
+      unit: unit, 
+      brushOptions, 
+      ...styleOpts
+    })
+    let par = new Text(text, {
       lineHeight,
       ...styleObj
     })
@@ -42,7 +50,7 @@ function typeset({
 }
 
 
-function Type({
+function MetrumText({
   width="100%",
   height="100%",
   ...props
@@ -76,4 +84,4 @@ function Type({
   )
 }
 
-export default Type
+export default MetrumText
