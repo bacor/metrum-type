@@ -2,7 +2,7 @@
 <img src="packages/demo/public/screenshot.png?raw=true">
 
 
-**Metrum Type Beta is an experimental typeface designed by Bas Cornelissen for Studio Metrum.**
+**Metrum Type Beta is an experimental typeface designed by [Bas Cornelissen](https://bascornelissen.nl) for [Studio Metrum](https://metrum.studio).**
 
 [Go to the the demo page »](https://bacor.github.io/metrum-type/)
 
