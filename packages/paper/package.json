@@ -1,0 +1,11 @@
+{
+  "name": "@metrum/paper",
+  "version": "1.0.0",
+  "description": "The metrum typeface implemented in Paper.js",
+  "license": "MIT",
+  "main": "src/index.js",
+  "dependencies": {
+    "@stdlib/stats-base-dists-beta": "^0.0.6",
+    "paper": "^0.12.15"
+  }
+}

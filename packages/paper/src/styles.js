@@ -1,4 +1,3 @@
-import { toHaveAccessibleDescription } from "@testing-library/jest-dom/dist/matchers";
 import Paper from "paper";
 import { Arc, Line } from "./shapes"
 

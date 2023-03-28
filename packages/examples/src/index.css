@@ -11,3 +11,27 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.container {
+  margin: auto;
+  max-width: 700px;
+  padding: 1em;
+}
+
+form {
+  padding: 1em 0;
+  /* display: flex;
+  align-items: center;
+  flex-direction: column; */
+}
+
+label {
+   margin: 0 1em;
+}
+
+.example-container {
+  padding: 0rem;
+}
+.example-container canvas {
+  box-shadow: 0 0 30px rgba(0,0,0,0.2);
+}

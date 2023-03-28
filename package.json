@@ -1,40 +1,25 @@
 {
-  "name": "app",
-  "version": "0.1.0",
-  "private": true,
+  "name": "@metrum/root",
+  "private": "true",
+  "version": "1.0.0",
+  "workspaces": [
+    "packages/*"
+  ],
+  "license": "MIT",
   "dependencies": {
-    "@stdlib/stats-base-dists-beta": "^0.0.6",
-    "@testing-library/jest-dom": "^5.14.1",
-    "@testing-library/react": "^12.0.0",
-    "@testing-library/user-event": "^13.2.1",
-    "paper": "^0.12.15",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-scripts": "5.0.0",
-    "web-vitals": "^2.1.0"
+    "@babel/core": "^7.20.5",
+    "@babel/plugin-transform-runtime": "^7.19.6",
+    "@babel/preset-env": "^7.20.2",
+    "@babel/preset-react": "^7.18.6",
+    "@preconstruct/cli": "^2.2.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "postinstall": "preconstruct dev",
+    "build": "preconstruct build"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
+  "preconstruct": {
+    "packages": [
+      "packages/*"
     ]
   }
 }

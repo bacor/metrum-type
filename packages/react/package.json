@@ -1,0 +1,12 @@
+{
+  "name": "@metrum/react",
+  "version": "1.0.0",
+  "description": "A react component that typesets text using Metrum Paper",
+  "license": "MIT",
+  "main": "dist/metrum-react.cjs.js",
+  "dependencies": {
+    "@babel/preset-react": "^7.18.6",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}

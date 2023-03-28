@@ -1,0 +1,41 @@
+{
+  "name": "@metrum/demo",
+  "version": "1.0.0",
+  "description": "Demo website of the metrum typeface",
+  "main": "dist/metrum-examples.cjs.js",
+  "module": "dist/metrum-examples.esm.js",
+  "license": "MIT",
+  "dependencies": {
+    "@babel/preset-react": "^7.18.6",
+    "@metrum/paper": "1.0.0",
+    "@stdlib/stats-base-dists-beta": "^0.0.6",
+    "paper": "^0.12.15",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "5.0.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
