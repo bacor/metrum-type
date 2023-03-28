@@ -11,7 +11,7 @@ import Text from "@metrum/paper/src/Text"
 import { Point } from "paper"
 import { styles, animateOnMouseMove } from "@metrum/paper";
 
-
+// https://coolors.co/palette/22577a-38a3a5-57cc99-80ed99-c7f9cc
 // let style = styles.factory('metrum', { 
 //   unit: 13.5,
 //   arcStyle: {
@@ -163,7 +163,7 @@ const Details = () => {
           This explains the name, but the typeface is also 'beta' in the technical sense.
           It is not yet an ordinary typeface, but has been implemented
           from scratch using <a href="http://paperjs.org/">Paper.js</a>.
-          Have a look at the code on  <a href="http://github.com/bacor/metrum-type-beta">GitHub</a>.
+          Have a look at the code on  <a href="http://github.com/bacor/metrum-type">GitHub</a>.
         </p>
     </section>
   )
