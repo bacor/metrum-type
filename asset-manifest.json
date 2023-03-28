@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/metrum-type/static/css/main.dae9763e.css",
+    "main.js": "/metrum-type/static/js/main.e8f1d53d.js",
+    "index.html": "/metrum-type/index.html",
+    "main.dae9763e.css.map": "/metrum-type/static/css/main.dae9763e.css.map",
+    "main.e8f1d53d.js.map": "/metrum-type/static/js/main.e8f1d53d.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.dae9763e.css",
+    "static/js/main.e8f1d53d.js"
+  ]
+}

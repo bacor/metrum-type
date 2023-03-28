@@ -1,0 +1,8 @@
+{
+  "short_name": "Metrum Type Beta",
+  "name": "An experimental typeface designed by Bas Cornelissen for Studio Metrum.",
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#80ED99",
+  "background_color": "#C7F9CC"
+}
